@@ -66,3 +66,25 @@ This method combine the thought of the previous two methods.
 - Middle `q`: Directly goes to cache as `q` (group id). Goes into table to select a row.
   - Check if this row contains higher `t` of the memory. (If not exist, miss)
 - If hit, we will got `r` part from the table, it goes to cache as the `r` part.
+
+# Dive Deeper to Group Mapping
+
+![image](https://github.com/Oya-Learning-Notes/ASM-Learning-Note/assets/61616918/f771717a-7f25-4a91-a6a9-1d9afabde7c1)
+
+See how the table changes when we modified `q` and `r`. (Notice that `q + r = c`)
+
+## Increase r
+
+Now if you **decrease `q` and increase `r`**, the table will finally have only one row. 
+
+That means every time accessing, full scan to the table is needed. (We need to full scan every column, and in this case there's only one row, means we actually doing full table scan)
+
+That's Full Associated Mapping.
+
+## Increase q
+
+Now if you **increase `q` and decrease `r`**, this table will finally have only one column.
+
+No scan is needed anymore, once you determine `q`, we could check if the cache is valid.
+
+That's Direct Mapping.
