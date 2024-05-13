@@ -11,3 +11,7 @@ This directory contains the contents about Principle of Computer Organization.
 ## Arithmetic & Data
 
 [IEEE 754 - Floating Point Number](./arithmetic/ieee754.md)
+
+## Number Binary Encoding
+
+[Number Encoding](./arithmetic/number_encoding.md)
