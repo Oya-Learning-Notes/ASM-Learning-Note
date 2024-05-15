@@ -10,9 +10,7 @@ Notice that we __use two bits to represents sign in tmp sum and do NOT use bit t
 
 ![IMG_2127](https://github.com/Oya-Learning-Notes/ASM-Learning-Note/assets/61616918/bd816a24-a7da-4f1c-b636-1d669050c104)
 
-Notice that
-
-If the bit count of `oprand 2 ` is `n`, then we do `n` times `(+, ->)`
+Notice that: If the bit count of `oprand 2 ` is `n`, then we do `n` times `(+, ->)`
 
 > Checkout textbook 107
 
@@ -25,6 +23,8 @@ Therer are two method to calculate `TWC` mul.
 First do multiply like `ORG` encoding.
 
 Then if _oprand 2_ is negative, add `-X(TWC)` to the result.
+
+Notice that in this method, even if `oprand 2` is negative (for example like `1.1011`), we still use `1011` as `mul`.
 
 ## Comparison
 
@@ -46,4 +46,4 @@ When using this method, we need to first add an _extra_ bit `0` to the `mul` par
 
 Different from `ORG`, here the operation group becomes `(->, +)` and we do `n` times. _(n is the bit count of the `oprand 2`)_
 
-Also notice that when finished calculation, **we need to deprecate one more bit in the `mul` part.** Anyway the bits count of the final result should be `m+n`. _(m is the bit count of `tmp ans` and n is the bit count of oprand 2)_
+Also notice that when finished calculation, **we need to deprecate one more bit in the `mul` part.** Anyway the bits count of the final result should be `m+n`. _(m is the bit count of `tmp ans` and n is the bit count of oprand 2)_.
