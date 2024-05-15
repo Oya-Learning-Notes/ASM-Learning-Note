@@ -1,4 +1,4 @@
-This post will discuss the multiplication of _fixed point number_ .
+This post will discuss the multiplication of _fixed point number_ . Please make sure you have the basic knowledge about _number encoding_ , for more info, check out [Number Encoding Notes](./number_encoding.md)
 
 # ORG Encoding Multiply
 

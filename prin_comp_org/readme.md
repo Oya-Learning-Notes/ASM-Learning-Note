@@ -10,8 +10,8 @@ This directory contains the contents about Principle of Computer Organization.
 
 ## Arithmetic & Data
 
+[Number Encoding](./arithmetic/number_encoding.md)
+
 [IEEE 754 - Floating Point Number](./arithmetic/ieee754.md)
 
-## Number Binary Encoding
-
-[Number Encoding](./arithmetic/number_encoding.md)
+[Fix Number Multiplication](./arithmetic/fix_number_mul.md)
