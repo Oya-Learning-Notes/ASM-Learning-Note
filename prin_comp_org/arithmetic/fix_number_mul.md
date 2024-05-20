@@ -68,6 +68,8 @@ But this is only the theoretical rules, we also need some tricks on it. Check ou
 
 ## Tricks when doing operation
 
+### Divide +3X to -X+4X
+
 Add `0`, `X`, and `2X` is easy. (we just do `SHL` on `X` to get `2X`)
 
 But how we can do `ADD 3X`?
@@ -81,3 +83,15 @@ The final rules is like the image below:
 ![IMG_3133](https://github.com/Oya-Learning-Notes/ASM-Learning-Note/assets/61616918/21e1c6f2-fc39-4a3f-ad87-a9673b9e5020)
 
 > For more info, checkout Textbook P117.
+
+### Use +(-X(TWC)) to do -X
+
+Since we use -X(TWC), so when we do `SHR`, __we need to use the bit shift rules of Two's complement__. 
+
+Notice: the `mul` part is still using `|X|`, and the final sign is still be acquired by XOR the sign of two oprand. The TWC here only be used to achieve `-X`.
+
+## Conclusion
+
+- Divide +3X operation to -X and +4X. Set up flag.
+- Use `3` bit to represent sign of tmp sum.
+- Use _TWC bit shift rules_ when do `SHR`.
