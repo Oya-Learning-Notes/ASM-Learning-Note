@@ -47,3 +47,37 @@ When using this method, we need to first add an _extra_ bit `0` to the `mul` par
 Different from `ORG`, here the operation group becomes `(->, +)` and we do `n` times. _(n is the bit count of the `oprand 2`)_
 
 Also notice that when finished calculation, **we need to deprecate one more bit in the `mul` part.** Anyway the bits count of the final result should be `m+n`. _(m is the bit count of `tmp ans` and n is the bit count of oprand 2)_.
+
+
+# ORG 2-Bits Multiply
+
+One bit a time is too time wasting, so we want to __calculate 2 bits__ at a time. The basic thought is:
+
+- Using state of 2 bits to update tmp sum.
+- Perform `SHR 2`
+
+## State Corresponding Operation
+
+![IMG_3132](https://github.com/Oya-Learning-Notes/ASM-Learning-Note/assets/61616918/8a650903-708b-4bc1-acaf-65da19d7a6c2)
+
+As the images implys:
+
+Based on the number of the two bits _(could be `0, 1, 2, 3`)_ , we correspondingly add `0, X, 2X, 3X` to the tmp sum.
+
+But this is only the theoretical rules, we also need some tricks on it. Check out the passage below.
+
+## Tricks when doing operation
+
+Add `0`, `X`, and `2X` is easy. (we just do `SHL` on `X` to get `2X`)
+
+But how we can do `ADD 3X`?
+
+The answer is we divide `+3X` into `-X + 4X`. That is in this round, we only do `-X`, and we set up a flag `F` to represent if we need to do `+4X` in next round.
+
+Notice because __we do a `SHR 2` before into next round__, so actually __we only need to do `+4X / 4 = +X` in next round__.
+
+The final rules is like the image below:
+
+![IMG_3133](https://github.com/Oya-Learning-Notes/ASM-Learning-Note/assets/61616918/21e1c6f2-fc39-4a3f-ad87-a9673b9e5020)
+
+> For more info, checkout Textbook P117.
