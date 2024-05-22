@@ -14,4 +14,4 @@ This directory contains the contents about Principle of Computer Organization.
 
 [IEEE 754 - Floating Point Number](./arithmetic/ieee754.md)
 
-[Fix Number Multiplication](./arithmetic/fix_number_mul.md)
+[Fix Number Calculation](./arithmetic/fix_number_calc.md)

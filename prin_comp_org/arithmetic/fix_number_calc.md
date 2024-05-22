@@ -90,8 +90,88 @@ Since we use -X(TWC), so when we do `SHR`, __we need to use the bit shift rules 
 
 Notice: the `mul` part is still using `|X|`, and the final sign is still be acquired by XOR the sign of two oprand. The TWC here only be used to achieve `-X`.
 
+## Tricks when MUL is odd
+
+There is two ways to solve this.
+
+__Add `0` to right most bit__
+
+For example if the `mul` is `0.01011`, then make it to be: `0.010110`. Then when retrive the result, __abandon the right most bit__. For example if the result is `000.10111 110100`, then we only want `000.1011111010` part.
+
+Anyway the point is the __bit count of the result significand is always the significand bit count sum of two oprand__. This rules always applys (we use this rules in TWC one bit multiply too)
+
+__Add `0` to the left most bit__
+
+This time The __last `SHR` opreation only shift one bit__.
+
 ## Conclusion
 
 - Divide +3X operation to -X and +4X. Set up flag.
 - Use `3` bit to represent sign of tmp sum.
 - Use _TWC bit shift rules_ when do `SHR`.
+
+# TWC Two Bit Multiply
+
+- Use 3 bits to represent sign in tmp sum.
+- Add `0` at the rightmost bit of `mul`.
+- The last `SHR` only shift one bit.
+
+This time, we except the `mul` part is odd. _(because that means it will become even after adding `0` to the right)_
+
+![IMG_3134](https://github.com/Oya-Learning-Notes/ASM-Learning-Note/assets/61616918/d47541c0-33e4-47e1-8434-1425e6645e91)
+
+The image above shows the rules.
+
+## When MUL is even
+
+__Add one more sign bit to mul__
+
+Then we don't do `SHR` at all.
+
+For example, `1.01001` to `11.01001`.
+
+__Add `0` to rightmost bit of `mul`__
+
+Don't change any operation. The last time we still need to do `SHR 1`.
+
+We found that both in `ORG` and `TWC` two bit multiplication, when __adding bit to right, then it will not affect the operation__. But when __adding bit to left, then we will decrease `SHR` by one time__.
+
+# ORG One Bit Division
+
+The basic thought is _test and restore_.
+
+![IMG_3147](https://github.com/Oya-Learning-Notes/ASM-Learning-Note/assets/61616918/b8e3ba10-08c3-43a8-8f62-bb9dbad2f42e)
+
+As the image above.
+
+## Leftmost Bit In Result
+
+Notice that this method required _opr1 < opr2_, so the _leftmost_ bit of the result will be zero. And __this bit will be covered by _sign_ bit__.
+
+```
+Result: 0010011
+Sign: 1
+Answer: 1.010011
+```
+
+# ORG One Bit Division (Optimized)
+
+Consider what we need to do in previous method:
+
+Consider the rest is `R`, `opr2` is `Y`.
+
+- `R_i < 0`: `R_i += Y` `<-` `R_(i+1) - Y`
+- `R_i > 0`: `<-` `R_(i+1) - Y`
+
+> <- means _left shift_
+
+So how can we simplify it? Notice the first situation. We prefer to not do `+=` part and directly left shift.
+
+```
+SHL (R_i - Y) = R_(i+1) - 2Y
+R_(i+1) - 2Y + Y = R_(i+1) - Y
+```
+
+So we found that if `R_i < 0`, then we can __directly shift, and replace the `-Y` opreation to `+Y` operation.__
+
+> Textbook P125
