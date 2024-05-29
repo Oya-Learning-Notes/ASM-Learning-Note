@@ -16,9 +16,9 @@ Then, we need to calculate `XOR DIV`, __Calculate M(x) XOR DIV G(x) == R(x) ... 
 
 Finally, __add M(x) by Q(x)__, then we got final result. (Here the M(x) is the one has been left shifted)
 
+Image below is an example of calculating `CRC`.
 
-
-
+![IMG_2156](https://github.com/Oya-Learning-Notes/ASM-Learning-Note/assets/61616918/3f25fd7c-ff47-4a8f-b750-2e8b9ffe8efd)
 
 # Refs
 
