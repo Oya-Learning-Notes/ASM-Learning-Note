@@ -58,6 +58,7 @@ Check the example picture below: (In which Org means the value in storage/memory
 
 ![IMG_2041.PNG](https://s2.loli.net/2024/03/08/twVpqzGQD8UubOM.jpg)
 
+Notice here the encode could not be directly considered as the `Offset Encoding`. Because in _Offset Encoding_, the shift number will be $2^(n-1)$, but in _IEEE 754`, the shift number is $2^(n-1) -1$.
 ## Special Cases
 
 - All Zeros. This represents _subnormal_ numbers in the standard. And which means hidden one convention will be disabled.
