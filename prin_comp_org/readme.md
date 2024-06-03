@@ -6,7 +6,11 @@ This directory contains the contents about Principle of Computer Organization.
 
 ## Storage / Cache
 
-[Cache Mapping](./cache_mapping.md)
+[Cache Mapping](./storage/cache_mapping.md)
+
+[Cache Calculation](./storage/cache_calc.md)
+
+[Cache Refresh](./storage/cache_refresh.md)
 
 ## Arithmetic & Data
 

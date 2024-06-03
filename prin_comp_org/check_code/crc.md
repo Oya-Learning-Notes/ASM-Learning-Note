@@ -20,6 +20,14 @@ Image below is an example of calculating `CRC`.
 
 ![IMG_2156](https://github.com/Oya-Learning-Notes/ASM-Learning-Note/assets/61616918/3f25fd7c-ff47-4a8f-b750-2e8b9ffe8efd)
 
+# Check And Correction
+
+The most __important part that makes a great CRC algorithm is to find a great G(x) polynomial__, it should satisfy the condition below:
+
+- Any error will cause non-zero Q(x)
+- Different _Error Position_ lead to _Different Non-zero Q(x)_
+- Q(x) / G(x) should loop.
+
 # Refs
 
 [Wikipedia - CRC](https://en.wikipedia.org/wiki/Cyclic_redundancy_check)
