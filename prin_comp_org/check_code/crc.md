@@ -28,6 +28,12 @@ The most __important part that makes a great CRC algorithm is to find a great G(
 - Different _Error Position_ lead to _Different Non-zero Q(x)_
 - Q(x) / G(x) should loop.
 
+# Correction Step
+
+Notice since the $Q(x) / G(x)$ loops, we __use this characristics and _Shift Left_ operation to finished the correction__.
+
+![IMG_3202](https://github.com/Oya-Learning-Notes/ASM-Learning-Note/assets/61616918/84003703-80e8-4b71-a378-c6689dc80a75)
+
 # Refs
 
 [Wikipedia - CRC](https://en.wikipedia.org/wiki/Cyclic_redundancy_check)
