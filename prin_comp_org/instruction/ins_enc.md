@@ -137,3 +137,7 @@ C_3 + C_6 + C_9
 &= 64
 \end{align}
 $$
+
+### Max Total Instruction
+
+Based on Textbook P175, if we want maximize the total count of instruction, we need to use as least short code points as possible.
