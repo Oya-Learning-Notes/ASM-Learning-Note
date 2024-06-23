@@ -20,21 +20,11 @@ Therer are two method to calculate `TWC` mul.
 
 ## Calibrate (校准法)
 
-### Steps
+First do multiply like `ORG` encoding.
 
-- First do multiply like `ORG` encoding.
-- Then if _oprand 2_ is negative, add `-X(TWC)` to the result.
+Then if _oprand 2_ is negative, add `-X(TWC)` to the result.
 
-### Notice
-
-- Even we **only use significant part of `Y`, we still need to convert it to `TWC` first**.
-
-For example, if `Y = -0.1011`. Then:
-
-```
-Y = 1.0101 (TWC)
-Using: 0101
-```
+Notice that in this method, even if `oprand 2` is negative (for example like `1.1011`), we still use `1011` as `mul`.
 
 ## Comparison
 
@@ -50,25 +40,21 @@ As the img says: Everytime after `SHR`, we compare `extra - low_bit_of_mul`:
 
 > `X` means oprand 1 here.
 
-### Notice
+Notice we __use two bits to represent sign in tmp ans, one bit to represent sign in mul__ in calculation.
 
-- `tmp_ans` has *2-bit* sign. `mul` has *1-bit* sign.
-- Use `extra`, and the initial value is `0`. After initialize the `extra`, do a `ADD` operation, considered as preprocess.
-- Use `(->, +)` as basic unit, do `n` times.
-  - Use _TWC bit shift rules_ when do `SHR`.
-  - _(n is the bit count of the `oprand 2`)_
-  - *(Preprocess has been ignored)*
-- Deprecate one more bit in the `mul` part when finished. (Anyway the bits count of the final result should be `m+n`. _(m is the bit count of `tmp ans` and n is the bit count of oprand 2)_.)
+When using this method, we need to first add an _extra_ bit `0` to the `mul` part and do an `add`. **This could be considered a preprocess**.
+
+Different from `ORG`, here the operation group becomes `(->, +)` and we do `n` times. _(n is the bit count of the `oprand 2`)_
+
+Also notice that when finished calculation, **we need to deprecate one more bit in the `mul` part.** Anyway the bits count of the final result should be `m+n`. _(m is the bit count of `tmp ans` and n is the bit count of oprand 2)_.
+
 
 # ORG 2-Bits Multiply
 
 One bit a time is too time wasting, so we want to __calculate 2 bits__ at a time. The basic thought is:
 
 - Using state of 2 bits to update tmp sum.
-- Perform `SHR 2` *(Arithmetic Shift, preserve sign)*
-
-![ORG Two Bits Multiply](https://github.com/Oya-Learning-Notes/ASM-Learning-Note/assets/61616918/00ac530b-d16b-42c5-8699-3fea951b5555)
-
+- Perform `SHR 2`
 
 ## State Corresponding Operation
 
@@ -98,9 +84,9 @@ The final rules is like the image below:
 
 > For more info, checkout Textbook P117.
 
-### Use +(-|X|(TWC)) to do -X
+### Use +(-X(TWC)) to do -X
 
-Since we use -|X|(TWC), so when we do `SHR`, __we need to use the bit shift rules of Two's complement__. 
+Since we use -X(TWC), so when we do `SHR`, __we need to use the bit shift rules of Two's complement__. 
 
 Notice: the `mul` part is still using `|X|`, and the final sign is still be acquired by XOR the sign of two oprand. The TWC here only be used to achieve `-X`.
 
@@ -120,23 +106,17 @@ This time The __last `SHR` opreation only shift one bit__.
 
 ## Conclusion
 
-- Always convert `X` to `|X|` first. Notice we may use `-|X|(TWC)`, not `-X(TWC)`
 - Divide +3X operation to -X and +4X. Set up flag.
 - Use `3` bit to represent sign of tmp sum.
 - Use _TWC bit shift rules_ when do `SHR`.
 
 # TWC Two Bit Multiply
 
+- Use 3 bits to represent sign in tmp sum.
+- Add `0` at the rightmost bit of `mul`.
+- The last `SHR` only shift one bit.
 
-## Notices
-
-- `tmp_sum` has *3-bits* sign. `mul` has *1-bit* sign.
-  - Because we use one bit to repr sign in `mul` part, the **significand part now should be odd and not even**.
-- The last shift only `shift` one bit.
-
-![TWC Two Bits Multiply](https://github.com/Oya-Learning-Notes/ASM-Learning-Note/assets/61616918/b9d350c3-eaa7-4768-93f5-f175a702869d)
-
-## Perform Rules
+This time, we except the `mul` part is odd. _(because that means it will become even after adding `0` to the right)_
 
 ![IMG_3134](https://github.com/Oya-Learning-Notes/ASM-Learning-Note/assets/61616918/d47541c0-33e4-47e1-8434-1425e6645e91)
 
@@ -158,19 +138,11 @@ We found that both in `ORG` and `TWC` two bit multiplication, when __adding bit 
 
 # ORG One Bit Division
 
-## Notices
-
-- `tmp_sum` has *2-bits* sign. `ans` part don't need sign.
-- *Final answer* has `1-bit` sign. For example, answer part is `010111`, then *Final Answer* is `0.10111`
-- Use `(test, <-)` as a unit. But at last we could **test one more time but not perform shift** to get more accurate resule *(or don't test and put `1` to the final bit of answer)*.
+The basic thought is _test and restore_.
 
 ![IMG_3147](https://github.com/Oya-Learning-Notes/ASM-Learning-Note/assets/61616918/b8e3ba10-08c3-43a8-8f62-bb9dbad2f42e)
 
 As the image above.
-
-![One Bit Division](https://github.com/Oya-Learning-Notes/ASM-Learning-Note/assets/61616918/c7412201-c2a8-4514-9802-5a20a5e09abc)
-
-> Notice: Answer is wrong, which don't take the sign into consideration. Correct answer should be `1.10110`
 
 ## Leftmost Bit In Result
 
@@ -203,7 +175,3 @@ R_(i+1) - 2Y + Y = R_(i+1) - Y
 So we found that if `R_i < 0`, then we can __directly shift, and replace the `-Y` opreation to `+Y` operation.__
 
 > Textbook P125
-
-# Refs
-
-This note page has a [Legacy Version](./fix_number_calc_legacy.md)
