@@ -88,3 +88,7 @@ Now if you **increase `q` and decrease `r`**, this table will finally have only 
 No scan is needed anymore, once you determine `q`, we could check if the cache is valid.
 
 That's Direct Mapping.
+
+# Exercises about Cache Mapping
+
+[Cache Mapping Question](./cache_mapping_que.md)
